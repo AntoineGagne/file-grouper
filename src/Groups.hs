@@ -6,7 +6,12 @@ module Groups
     , folderByLevel
     ) where
 
-import Data.Map.Strict ( Map )
+import Data.Char ( toUpper
+                 , isDigit
+                 )
+import Data.Map.Strict ( Map
+                       , insertWith
+                       )
 import Data.Maybe ( fromMaybe )
 import Data.Time ( FormatTime
                  , UTCTime
@@ -37,19 +42,29 @@ data File
            , modificationTime :: UTCTime
            } deriving (Eq, Ord, Show)
 
-groupBy :: GroupBy -> (File -> Map String FilePath -> Map String FilePath)
+groupBy :: GroupBy -> (File -> Map String [File] -> Map String [File])
 groupBy (LastAccessed level) = groupByLastModified $ fromMaybe Month level
 groupBy (LastModified level) = groupByLastModified $ fromMaybe Month level
 groupBy Name = groupByName
 
-groupByLastAccessed :: Level -> File -> Map String FilePath -> Map String FilePath
-groupByLastAccessed = undefined
+groupByLastAccessed :: Level -> File -> Map String [File] -> Map String [File]
+groupByLastAccessed level file
+    = insertFileWithKey (folderByLevel level (accessTime file)) file
 
-groupByLastModified :: Level -> File -> Map String FilePath -> Map String FilePath
-groupByLastModified = undefined
+groupByLastModified :: Level -> File -> Map String [File] -> Map String [File]
+groupByLastModified level file
+    = insertFileWithKey (folderByLevel level (modificationTime file)) file
 
-groupByName :: File -> Map String FilePath -> Map String FilePath
-groupByName = undefined
+groupByName :: File -> Map String [File] -> Map String [File]
+groupByName file = insertFileWithKey (formatFolderName file) file
+    where 
+        formatFolderName file
+            | isDigit c = "0_9"
+            | otherwise = [c]
+        c = toUpper . head . name $ file
+
+insertFileWithKey :: String -> File -> Map String [File] -> Map String [File]
+insertFileWithKey key file = insertWith (++) key (pure file)
 
 folderByLevel :: Level -> UTCTime -> String
 folderByLevel Year time = formatTime defaultTimeLocale "%Y" time
