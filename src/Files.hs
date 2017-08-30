@@ -3,6 +3,9 @@ module Files
     , FileType (..)
     , fileType'
     , fetchFiles
+    , globPattern
+    , maxDepth
+    , minDepth
     , moveFiles
     , readFileType
     ) where

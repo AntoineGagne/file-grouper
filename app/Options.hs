@@ -43,7 +43,8 @@ data Options = Options
     , optionMaxDepth :: Maybe Int
     , optionMinDepth :: Maybe Int
     , optionGroupBy :: GroupBy
-    , optionPath :: String
+    , optionInputPath :: String
+    , optionOutputPath :: String
     }
 
 options :: ParserInfo Options
@@ -58,10 +59,19 @@ options = info (options' <**> helper) ( fullDesc
                 <*> maxDepth
                 <*> minDepth
                 <*> groupBy
-                <*> path
+                <*> inputPath
+                <*> outputPath
 
-path :: Parser String
-path = strOption
+inputPath :: Parser String
+inputPath = strOption
+    ( long "input"
+   <> short 'i'
+   <> metavar "PATH"
+   <> help "The folder that contains the files."
+    )
+
+outputPath :: Parser String
+outputPath = strOption
     ( long "output"
    <> short 'o'
    <> metavar "DESTINATION"
