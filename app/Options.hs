@@ -18,6 +18,7 @@ import Options.Applicative ( (<**>)
                            , helper
                            , help
                            , info
+                           , infoOption
                            , long
                            , metavar
                            , option
@@ -48,7 +49,7 @@ data Options = Options
     }
 
 options :: ParserInfo Options
-options = info (options' <**> helper) ( fullDesc
+options = info (options' <**> helper <**> versionOptions) ( fullDesc
                                       <> progDesc "Group files in folders."
                                       <> header "file-grouper - Group your files"
                                       )
@@ -61,6 +62,7 @@ options = info (options' <**> helper) ( fullDesc
                 <*> groupBy
                 <*> inputPath
                 <*> outputPath
+        versionOptions = infoOption "0.1.0" (long "version" <> help "Show program's version.")
 
 inputPath :: Parser String
 inputPath = strOption
