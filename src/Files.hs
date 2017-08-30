@@ -101,10 +101,11 @@ moveFiles destination m = do
     destination' <- canonicalizePath destination
     foldrWithKey (f destination') (pure ()) m
     where
-        f destination' directory files _ = do
+        f destination' directory files action = do
             let destination'' = destination' </> directory
             makeDirectory destination''
             mapM_ (moveFile destination'') files
+            action
 
 makeDirectory :: FilePath -> IO ()
 makeDirectory = createDirectoryIfMissing True
