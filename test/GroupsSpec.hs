@@ -21,14 +21,8 @@ spec = do
     describe "folderByLevel" $ parallel $ do
         it "returns <year> when the `Year` format is given" $
             folderByLevel Year timestamp `shouldBe` "2010"
-        it "returns <year>/<month-name> when the `YearMonth` format is given" $
-            folderByLevel YearMonth timestamp `shouldBe` "2010/October"
-        it "returns <year>/<month-name>/<day> when the `YearMonthDay` format is given" $
-            folderByLevel YearMonthDay timestamp `shouldBe` "2010/October/10"
         it "returns <month-name> when the `Month` format is given" $
             folderByLevel Month timestamp `shouldBe` "October"
-        it "returns <month-name>/<day> when the `MonthDay` format is given" $
-            folderByLevel MonthDay timestamp `shouldBe` "October/10"
         it "returns <day> when the `Day` format is given" $
             folderByLevel Day timestamp `shouldBe` "10"
         it "returns the correct given format string (i.e. %D)" $
@@ -37,14 +31,8 @@ spec = do
     describe "groupByLastAccessed" $ parallel $ do
         it "groups by year" $
             group (groupBy (LastAccessed (Just Year))) files `shouldBe` fromList [("2010", files)]
-        it "groups by year/month" $
-            group (groupBy (LastAccessed (Just YearMonth))) files `shouldBe` fromList [("2010/October", files)]
-        it "groups by year/month/day" $
-            group (groupBy (LastAccessed (Just YearMonthDay))) files `shouldBe` fromList [("2010/October/10", files)]
         it "groups by month" $
             group (groupBy (LastAccessed (Just Month))) files `shouldBe` fromList [("October", files)]
-        it "groups by month/day" $
-            group (groupBy (LastAccessed (Just MonthDay))) files `shouldBe` fromList [("October/10", files)]
         it "groups by day" $
             group (groupBy (LastAccessed (Just Day))) files `shouldBe` fromList [("10", files)]
         it "groups by custom format (i.e. %D)" $
@@ -55,14 +43,8 @@ spec = do
     describe "groupByLastModified" $ parallel $ do
         it "groups by year" $
             group (groupBy (LastModified (Just Year))) files `shouldBe` fromList [("2010", files)]
-        it "groups by year/month" $
-            group (groupBy (LastModified (Just YearMonth))) files `shouldBe` fromList [("2010/October", files)]
-        it "groups by year/month/day" $
-            group (groupBy (LastModified (Just YearMonthDay))) files `shouldBe` fromList [("2010/October/10", files)]
         it "groups by month" $
             group (groupBy (LastModified (Just Month))) files `shouldBe` fromList [("October", files)]
-        it "groups by month/day" $
-            group (groupBy (LastModified (Just MonthDay))) files `shouldBe` fromList [("October/10", files)]
         it "groups by day" $
             group (groupBy (LastModified (Just Day))) files `shouldBe` fromList [("10", files)]
         it "groups by custom format (i.e. %D)" $

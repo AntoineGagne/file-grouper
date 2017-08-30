@@ -1,7 +1,6 @@
 module Groups
     ( GroupBy (..)
     , Level (..)
-    , File (..)
     , groupBy
     , folderByLevel
     ) where
@@ -29,13 +28,10 @@ data GroupBy
 
 data Level
     = Year
-    | YearMonth
-    | YearMonthDay
     | Month
-    | MonthDay
     | Day
     | Custom String
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord, Read, Show)
 
 groupBy :: GroupBy -> (File -> Map String [File] -> Map String [File])
 groupBy (LastAccessed level) = groupByLastModified $ fromMaybe Month level
@@ -69,9 +65,6 @@ insertFileWithKey key file = insertWith (++) key (pure file)
 
 folderByLevel :: Level -> UTCTime -> String
 folderByLevel Year time = formatTime defaultTimeLocale "%Y" time
-folderByLevel YearMonth time = formatTime defaultTimeLocale "%Y/%B" time
-folderByLevel YearMonthDay time = formatTime defaultTimeLocale "%Y/%B/%d" time
 folderByLevel Month time = formatTime defaultTimeLocale "%B" time
-folderByLevel MonthDay time = formatTime defaultTimeLocale "%B/%d" time
 folderByLevel Day time = formatTime defaultTimeLocale "%d" time
 folderByLevel (Custom format) time = formatTime defaultTimeLocale format time

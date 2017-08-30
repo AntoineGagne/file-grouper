@@ -1,7 +1,10 @@
 module Files
     ( File (..)
+    , FileType (..)
+    , fileType'
     , fetchFiles
     , moveFiles
+    , readFileType
     ) where
 
 
@@ -32,6 +35,7 @@ import System.FilePath.Find ( FileType (..)
                             , always
                             , depth
                             , fileName
+                            , fileType
                             , find
                             )
 
@@ -42,15 +46,15 @@ data File
            , modificationTime :: UTCTime
            } deriving (Eq, Ord, Show)
 
-readFileType :: String -> FileType
-readFileType "b" = BlockDevice
-readFileType "c" = CharacterDevice
-readFileType "p" = NamedPipe
-readFileType "f" = RegularFile
-readFileType "d" = Directory
-readFileType "l" = SymbolicLink
-readFileType "s" = Socket
-readFileType _ = Unknown
+readFileType :: String -> Either String FileType
+readFileType "b" = Right BlockDevice
+readFileType "c" = Right CharacterDevice
+readFileType "p" = Right NamedPipe
+readFileType "f" = Right RegularFile
+readFileType "d" = Right Directory
+readFileType "l" = Right SymbolicLink
+readFileType "s" = Right Socket
+readFileType t = Left $ "Could not parse this filetype. " ++ t ++ " is not a known filetype."
 
 maxDepth :: Int -> FindClause Bool
 maxDepth n = depth <=? n
@@ -60,6 +64,9 @@ minDepth n = depth >=? n
 
 globPattern :: String -> FindClause Bool
 globPattern p = fileName ~~? p
+
+fileType' :: FileType -> FindClause Bool
+fileType' type' = fileType ==? type'
 
 fetchFiles
     :: (Traversable t, Foldable t)
