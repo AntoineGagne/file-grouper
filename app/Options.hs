@@ -1,5 +1,6 @@
 module Options
-    (
+    ( options
+    , Options (..)
     ) where
 
 import Control.Applicative ( (<|>)
@@ -7,18 +8,25 @@ import Control.Applicative ( (<|>)
                            , optional
                            )
 import Data.Monoid ( (<>) )
-import Options.Applicative ( auto
+import Options.Applicative ( (<**>)
+                           , auto
                            , eitherReader
                            , flag
                            , flag'
+                           , fullDesc
+                           , header
+                           , helper
                            , help
+                           , info
                            , long
                            , metavar
                            , option
+                           , progDesc
                            , short
                            , strOption
                            )
-import Options.Applicative.Types ( Parser (..)
+import Options.Applicative.Types ( Parser
+                                 , ParserInfo
                                  , ReadM
                                  )
 
@@ -38,14 +46,19 @@ data Options = Options
     , optionPath :: String
     }
 
-options :: Parser Options
-options = Options
-       <$> fileType
-       <*> globPattern
-       <*> maxDepth
-       <*> minDepth
-       <*> groupBy
-       <*> path
+options :: ParserInfo Options
+options = info (options' <**> helper) ( fullDesc
+                                      <> progDesc "Group files in folders."
+                                      <> header "image-sorter - Group your files"
+                                      )
+    where
+        options' = Options
+                <$> fileType
+                <*> globPattern
+                <*> maxDepth
+                <*> minDepth
+                <*> groupBy
+                <*> path
 
 path :: Parser String
 path = strOption

@@ -1,5 +1,13 @@
 module Main where
 
+import Options.Applicative ( execParser )
+
+import Options ( Options (..)
+               , options
+               )
+
 
 main :: IO ()
-main = pure ()
+main = do
+    execParser options
+    pure ()
