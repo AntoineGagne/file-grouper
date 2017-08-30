@@ -1,3 +1,3 @@
-# image-sorter
+# file-grouper
 
-This program sorts files according to various predicates.
+This program groups the files according to some predicates.

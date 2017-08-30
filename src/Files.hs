@@ -54,7 +54,6 @@ readFileType "b" = Right BlockDevice
 readFileType "c" = Right CharacterDevice
 readFileType "p" = Right NamedPipe
 readFileType "f" = Right RegularFile
-readFileType "d" = Right Directory
 readFileType "l" = Right SymbolicLink
 readFileType "s" = Right Socket
 readFileType t = Left $ "Could not parse this filetype. " ++ t ++ " is not a known filetype."

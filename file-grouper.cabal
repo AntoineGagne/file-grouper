@@ -1,8 +1,8 @@
-name:                image-sorter
-version:             0.1.0.0
+name:                file-grouper
+version:             0.1.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/image-sorter#readme
+homepage:            https://github.com/AntoineGagne/file-grouper#readme
 license:             BSD3
 license-file:        LICENSE
 author:              Antoine Gagné
@@ -25,25 +25,25 @@ library
                      , time
   default-language:    Haskell2010
 
-executable image-sorter
+executable file-grouper
   hs-source-dirs:      app
   main-is:             Main.hs
   other-modules:       Options
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
                      , containers
-                     , image-sorter
+                     , file-grouper
                      , filemanip
                      , optparse-applicative
   default-language:    Haskell2010
 
-test-suite image-sorter-test
+test-suite file-grouper-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
   build-depends:       base
                      , containers
-                     , image-sorter
+                     , file-grouper
                      , hspec
                      , QuickCheck
                      , time
@@ -52,4 +52,4 @@ test-suite image-sorter-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/image-sorter
+  location: https://github.com/AntoineGagne/file-grouper

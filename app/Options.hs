@@ -50,7 +50,7 @@ data Options = Options
 options :: ParserInfo Options
 options = info (options' <**> helper) ( fullDesc
                                       <> progDesc "Group files in folders."
-                                      <> header "image-sorter - Group your files"
+                                      <> header "file-grouper - Group your files"
                                       )
     where
         options' = Options
@@ -86,7 +86,6 @@ fileType = optional $ option parseFileType
            \n\n b  Block device \
            \n c  Character device \
            \n f  Regular file \
-           \n d  Directory \
            \n l  Symbolic link \
            \n p  Named pipe \
            \n s  Socket"
