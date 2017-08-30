@@ -38,10 +38,10 @@ import Groups ( GroupBy (..)
               )
 
 data Options = Options
-    { optionFileType :: FileType
-    , optionGlobPattern :: String
-    , optionMaxDepth :: Int
-    , optionMinDepth :: Int
+    { optionFileType :: Maybe FileType
+    , optionGlobPattern :: Maybe String
+    , optionMaxDepth :: Maybe Int
+    , optionMinDepth :: Maybe Int
     , optionGroupBy :: GroupBy
     , optionPath :: String
     }
@@ -68,8 +68,8 @@ path = strOption
    <> help "The folder where to put the sorted files."
     )
 
-fileType :: Parser FileType
-fileType = option parseFileType
+fileType :: Parser (Maybe FileType)
+fileType = optional $ option parseFileType
     ( long "type"
    <> metavar "TYPE"
    <> help "The filetype to match when searching for file. The following types are available: \
@@ -85,22 +85,22 @@ fileType = option parseFileType
 parseFileType :: ReadM FileType
 parseFileType = eitherReader readFileType
 
-globPattern :: Parser String
-globPattern = strOption 
+globPattern :: Parser (Maybe String)
+globPattern = optional $ strOption 
     ( long "pattern"
    <> metavar "PATTERN"
    <> help "The glob pattern to match when searching for files."
     )
 
-maxDepth :: Parser Int
-maxDepth = option auto
+maxDepth :: Parser (Maybe Int)
+maxDepth = optional $ option auto
     ( long "maxdepth"
    <> metavar "DEPTH"
    <> help "The maximum depth to use when recursing."
     )
 
-minDepth :: Parser Int
-minDepth = option auto
+minDepth :: Parser (Maybe Int)
+minDepth = optional $ option auto
            ( long "mindepth"
           <> metavar "DEPTH"
           <> help "The minimum depth to use when recursing."
