@@ -63,13 +63,15 @@ options = info (options' <**> helper <**> versionOptions) ( fullDesc
                 <*> groupBy
                 <*> inputPath
                 <*> outputPath
-        versionOptions = infoOption "0.1.0" (long "version" <> help "Show program's version.")
+        versionOptions = infoOption "file-grouper v0.1.0"
+            (long "version" <> help "Show program's version.")
 
 inputPath :: Parser String
 inputPath = strOption
     ( long "input"
    <> short 'i'
    <> metavar "PATH"
+   <> value "."
    <> help "The folder that contains the files."
     )
 
@@ -78,6 +80,7 @@ outputPath = strOption
     ( long "output"
    <> short 'o'
    <> metavar "DESTINATION"
+   <> value "."
    <> help "The folder where to put the sorted files."
     )
 
