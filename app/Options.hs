@@ -25,6 +25,7 @@ import Options.Applicative ( (<**>)
                            , progDesc
                            , short
                            , strOption
+                           , value
                            )
 import Options.Applicative.Types ( Parser
                                  , ParserInfo
@@ -39,7 +40,7 @@ import Groups ( GroupBy (..)
               )
 
 data Options = Options
-    { optionFileType :: Maybe FileType
+    { optionFileType :: FileType
     , optionGlobPattern :: Maybe String
     , optionMaxDepth :: Maybe Int
     , optionMinDepth :: Maybe Int
@@ -80,10 +81,11 @@ outputPath = strOption
    <> help "The folder where to put the sorted files."
     )
 
-fileType :: Parser (Maybe FileType)
-fileType = optional $ option parseFileType
+fileType :: Parser FileType
+fileType = option parseFileType
     ( long "type"
    <> metavar "TYPE"
+   <> value RegularFile
    <> help "The filetype to match when searching for file. The following types are available: \
        \ \n\n b  Block device \
        \ \n c  Character device \

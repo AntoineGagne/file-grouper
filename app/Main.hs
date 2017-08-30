@@ -21,7 +21,7 @@ import Options ( Options (..)
 main :: IO ()
 main = do
     options' <- execParser options
-    let fileType = maybe always fileType' $ optionFileType options'
+    let fileType = fileType' $ optionFileType options'
         globPattern' = maybe always globPattern $ optionGlobPattern options'
         maxDepth' = maybe always maxDepth $ optionMaxDepth options'
         minDepth' = maybe always minDepth $ optionMinDepth options'
