@@ -83,12 +83,12 @@ fileType = optional $ option parseFileType
     ( long "type"
    <> metavar "TYPE"
    <> help "The filetype to match when searching for file. The following types are available: \
-           \n\n b  Block device \
-           \n c  Character device \
-           \n f  Regular file \
-           \n l  Symbolic link \
-           \n p  Named pipe \
-           \n s  Socket"
+       \ \n\n b  Block device \
+       \ \n c  Character device \
+       \ \n f  Regular file \
+       \   \n l  Symbolic link \
+       \   \n p  Named pipe \
+       \   \n s  Socket"
     )
 
 parseFileType :: ReadM FileType
@@ -161,6 +161,6 @@ level = levelYear
     levelCustom = pure . Custom <$> strOption
         ( long "custom"
        <> metavar "PATTERN"
-       <> help "Create custom named folders. To see the available options, see the following page: \
-                \n\n https://hackage.haskell.org/package/time-1.8.0.3/docs/Data-Time-Format.html"
+       <> help "Create custom named folders. To see the available options, see the following page:\
+               \ https://hackage.haskell.org/package/time-1.8.0.3/docs/Data-Time-Format.html"
         )
