@@ -1,8 +1,13 @@
 module Files
     ( File (..)
+    , fetchFiles
+    , moveFiles
     ) where
 
 
+import Data.Map.Strict ( Map
+                       , foldrWithKey
+                       )
 import Data.Maybe ( fromMaybe )
 import Data.Time ( UTCTime )
 import System.Directory ( canonicalizePath
@@ -10,8 +15,9 @@ import System.Directory ( canonicalizePath
                         , getAccessTime
                         , getCurrentDirectory
                         , getModificationTime
+                        , renameFile
                         )
-import System.EasyFile ( combine
+import System.EasyFile ( (</>)
                        , splitFileName
                        )
 import System.FilePath.Find ( FileType (..)
@@ -80,8 +86,19 @@ makeFile filepath = do
               , modificationTime = modificationTime'
               }
 
-makeDirectory :: Maybe FilePath -> FilePath -> IO ()
-makeDirectory destination directoryPath = do
-    defaultDestination <- getCurrentDirectory
-    destination' <- canonicalizePath $ fromMaybe defaultDestination destination
-    createDirectoryIfMissing True $ combine destination' directoryPath
+moveFiles :: FilePath -> Map String [File] -> IO ()
+moveFiles destination m = do
+    destination' <- canonicalizePath destination
+    foldrWithKey (f destination') (pure ()) m
+    where
+        f destination' directory files _ = do
+            let destination'' = destination' </> directory
+            makeDirectory destination''
+            mapM_ (moveFile destination'') files
+
+makeDirectory :: FilePath -> IO ()
+makeDirectory = createDirectoryIfMissing True
+
+moveFile :: FilePath -> File -> IO ()
+moveFile destination file
+    = renameFile (path file </> name file) (destination </> name file)
