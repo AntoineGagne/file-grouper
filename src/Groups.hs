@@ -19,6 +19,8 @@ import Data.Time ( FormatTime
                  , defaultTimeLocale
                  )
 
+import Files ( File (..) )
+
 data GroupBy
     = LastModified (Maybe Level)
     | LastAccessed (Maybe Level)
@@ -35,25 +37,24 @@ data Level
     | Custom String
     deriving (Eq, Ord, Show)
 
-data File
-    = File { name :: String
-           , path :: String
-           , accessTime :: UTCTime
-           , modificationTime :: UTCTime
-           } deriving (Eq, Ord, Show)
-
 groupBy :: GroupBy -> (File -> Map String [File] -> Map String [File])
 groupBy (LastAccessed level) = groupByLastModified $ fromMaybe Month level
 groupBy (LastModified level) = groupByLastModified $ fromMaybe Month level
 groupBy Name = groupByName
 
 groupByLastAccessed :: Level -> File -> Map String [File] -> Map String [File]
-groupByLastAccessed level file
-    = insertFileWithKey (folderByLevel level (accessTime file)) file
+groupByLastAccessed = groupByTime accessTime
 
 groupByLastModified :: Level -> File -> Map String [File] -> Map String [File]
-groupByLastModified level file
-    = insertFileWithKey (folderByLevel level (modificationTime file)) file
+groupByLastModified = groupByTime modificationTime
+
+groupByTime
+    :: (File -> UTCTime)
+    -> Level
+    -> File
+    -> Map String [File]
+    -> Map String [File]
+groupByTime f level file = insertFileWithKey (folderByLevel level (f file)) file
 
 groupByName :: File -> Map String [File] -> Map String [File]
 groupByName file = insertFileWithKey (formatFolderName file) file

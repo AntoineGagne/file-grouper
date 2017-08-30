@@ -15,9 +15,13 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Groups
+  exposed-modules:     Files
+                     , Groups
   build-depends:       base >= 4.7 && < 5
                      , containers
+                     , directory
+                     , easy-file
+                     , filemanip
                      , time
   default-language:    Haskell2010
 

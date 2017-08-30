@@ -10,6 +10,7 @@ import Data.Time ( parseTimeOrError
 import Test.Hspec
 import Test.QuickCheck
 
+import Files
 import Groups
 
 main :: IO ()
@@ -91,7 +92,7 @@ spec = do
                 ]
         digitFile :: [File]
         digitFile = [ File { name = "0_test"
-                           , path = "test/test-path/test_1"
+                           , path = "test/test-path/0_test"
                            , accessTime = timestamp
                            , modificationTime = timestamp
                            }
