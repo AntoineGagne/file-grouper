@@ -63,7 +63,7 @@ options = info (options' <**> helper <**> versionOptions) ( fullDesc
                 <*> groupBy
                 <*> inputPath
                 <*> outputPath
-        versionOptions = infoOption "file-grouper v0.1.0"
+        versionOptions = infoOption "file-grouper v1.0.0"
             (long "version" <> help "Show program's version.")
 
 inputPath :: Parser String
