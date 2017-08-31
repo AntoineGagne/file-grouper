@@ -5,6 +5,7 @@
 #
 # https://docs.haskellstack.org/en/stable/travis_ci/
 #
+#
 # Copy these contents into the root directory of your Github project in a file
 # named .travis.yml
 
