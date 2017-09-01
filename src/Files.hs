@@ -14,12 +14,10 @@ module Files
 import Data.Map.Strict ( Map
                        , foldrWithKey
                        )
-import Data.Maybe ( fromMaybe )
 import Data.Time ( UTCTime )
 import System.Directory ( canonicalizePath
                         , createDirectoryIfMissing
                         , getAccessTime
-                        , getCurrentDirectory
                         , getModificationTime
                         , renameFile
                         )
@@ -28,7 +26,7 @@ import System.EasyFile ( (</>)
                        )
 import System.FilePath.Find ( FileType (..)
                             , FilterPredicate
-                            , FindClause (..)
+                            , FindClause
                             , RecursionPredicate
                             , (==?)
                             , (<=?)
@@ -76,8 +74,8 @@ fetchFiles
     -> t FilterPredicate
     -> FilePath
     -> IO [File]
-fetchFiles recursionClauses filterClauses path = do 
-    filepaths <- find recursionClause filterClause path
+fetchFiles recursionClauses filterClauses path' = do 
+    filepaths <- find recursionClause filterClause path'
     mapM makeFile filepaths
     where
         recursionClause = foldr (&&?) always recursionClauses
