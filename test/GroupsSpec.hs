@@ -8,7 +8,6 @@ import Data.Time ( parseTimeOrError
                  , UTCTime
                  )
 import Test.Hspec
-import Test.QuickCheck
 
 import Files
 import Groups
