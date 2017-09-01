@@ -12,8 +12,7 @@ import Data.Map.Strict ( Map
                        , insertWith
                        )
 import Data.Maybe ( fromMaybe )
-import Data.Time ( FormatTime
-                 , UTCTime
+import Data.Time ( UTCTime
                  , formatTime
                  , defaultTimeLocale
                  )
@@ -34,7 +33,7 @@ data Level
     deriving (Eq, Ord, Read, Show)
 
 groupBy :: GroupBy -> (File -> Map String [File] -> Map String [File])
-groupBy (LastAccessed level) = groupByLastModified $ fromMaybe Month level
+groupBy (LastAccessed level) = groupByLastAccessed $ fromMaybe Month level
 groupBy (LastModified level) = groupByLastModified $ fromMaybe Month level
 groupBy Name = groupByName
 
@@ -53,9 +52,9 @@ groupByTime
 groupByTime f level file = insertFileWithKey (folderByLevel level (f file)) file
 
 groupByName :: File -> Map String [File] -> Map String [File]
-groupByName file = insertFileWithKey (formatFolderName file) file
+groupByName file = insertFileWithKey formatFolderName file
     where 
-        formatFolderName file
+        formatFolderName
             | isDigit c = "0_9"
             | otherwise = [c]
         c = toUpper . head . name $ file
