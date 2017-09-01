@@ -1,7 +1,7 @@
 name:                file-grouper
 version:             1.0.0
--- synopsis:
--- description:
+synopsis:            Group files
+description:         A program that groups files according to some predicates
 homepage:            https://github.com/AntoineGagne/file-grouper#readme
 license:             BSD3
 license-file:        LICENSE
